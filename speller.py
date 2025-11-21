@@ -1,5 +1,5 @@
 from pathlib import Path
-from function import validate_args, read_from_files,search ,w_word
+from function import validate_args, read_from_files,search ,w_word,read_stdin
 class dword():
     lowercase = ''
     original = ''
@@ -27,8 +27,8 @@ test = [
         'C:/Users/arthu/Documents/speller/dictionary.txt -s .py',
         'C:/Users/arthu/Documents/speller/dictionary.txt -s'
         ]
-argv = test[1]
-argv = input("Provide the path of the dictionarry\nfollowed by the desired extension eg -s .py (optional)\nfollowed by the path (s) of file/directory (otherwise it will read from stdinput)\n")
+argv = test[0]
+#argv = input("Provide the path of the dictionarry\nfollowed by the desired extension eg -s .py (optional)\nfollowed by the path (s) of file/directory (otherwise it will read from stdinput)\n")
 
 #for a in test:
 #    result = validate_args(a)
@@ -61,6 +61,10 @@ if res+2 < len(argv_list):
     input_path = [p]
     files_path = []
     read_from_files(files_path, input_path,words,suffix)
+else:
+   
+    read_stdin(words)
+    
 
 dict_file.close()
 #for w in words:
@@ -72,10 +76,13 @@ ref = sorted(ref,key = lambda x: x.lowercase)
 
 
 for w in words:
-    #print(w.word)
+    #print(w.word,w.line,w.column)
     
     result = search(ref , w.word)
     if result < 0:
-        base = "{}:{}:{}".format(w.path, w.line,w.column)
-        print("{} {}".format(base.ljust(60),w.word))
+        if w.path != '':
+            base = "{}:{}:{}".format(w.path, w.line,w.column)
+            print("{} {}".format(base.ljust(60),w.word))
+        else:
+            print("{}:{} {}".format(w.line,w.column,w.word))
     

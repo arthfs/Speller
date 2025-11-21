@@ -137,3 +137,23 @@ def search(ref,target):
             j = m-1 
 
     return -1
+
+def read_stdin(words):
+    print("Enter the words. Press Enter twice to stop\n\n")
+    cur_line = 1
+    cur_column = 1
+    while (1):
+
+        lines = input("").rsplit()
+        if lines == []:
+            break
+
+        for word in lines:
+            nword = w_word(word)
+            nword.column = cur_column
+            nword.line = cur_line
+            words.append(nword)
+            cur_column+= len(word)+1
+
+        cur_column = 1
+        cur_line+=1
